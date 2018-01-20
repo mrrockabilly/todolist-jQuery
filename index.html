@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>To Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>To Do List</h1>
+
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="exampleInputName2">Task</label>
+                <input type="text" class="form-control" id="todoname" placeholder="Eat a corn dog">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail2">Due Date</label>
+                <input type="date" class="form-control" id="tododate" placeholder="7-10-2017">
+            </div>
+            <button type="submit" class="btn btn-default">Add Task</button>
+        </form>
+
+        <ul id="todo-list" class="collection">
+        </ul>
+
+        <h2>Assignment</h2>
+
+        <ul>
+            <li>Append To Do tasks from the object.</li>
+            <li>Highlight past due items red.</li>
+            <li>Cross out items that are competed.</li>
+            <li>Put completed tasks on the bottom of the list</li>
+        </ul>
+
+        <h2>Bonus</h2>
+
+        <ul>
+            <li>Add a form to insert new to-do items.</li>
+            <li>Add new field to To-Do items priority, a number between 1 and 5.</li>
+            <li>Sort To-Do based on priority. </li>
+            <li>(Make all completed tasks 0 priority.)</li>
+        </ul>
+
+    </div>
+
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0-alpha1.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+    
+</body>
+
+</html>

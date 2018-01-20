@@ -1,0 +1,20 @@
+.late {
+    color: red;
+}
+
+.done {
+    text-decoration: line-through;
+}
+
+.myleft {
+    text-align: left
+}
+
+.myright {
+    text-align: right
+}
+
+.nonono {
+    padding: 0;
+    margin: 0;
+}
