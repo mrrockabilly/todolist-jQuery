@@ -28,30 +28,25 @@ let tasks = [
 
 
 $(function () {
-    for (var i = 0; i < tasks.length; i++) {
-        let newElem = $(`<li class="collection-item">
-        <div class="row nonono">
-            <div class="col s6 myleft nonono">
-                 ${tasks[i].task_name} 
-            </div>
-            <div class="col s6 myright nonono">
-                ${tasks[i].task_due}
-             </div>
-        </div>
 
-        </li>`);
+    $('.input').keypress(function (e) {
+        if (e.which == 13) {
+            $('form#login').submit();
+        }
+    });
 
-        if (checkLate(tasks[i].task_due)) {
-            newElem.addClass("late");
-        }
-        if (tasks[i].task_is_done) {
-            newElem.addClass("done");
-            newElem.removeClass("late")
-            $("#todo-list").append(newElem);
-        } else {
-            $("#todo-list").prepend(newElem);
-        }
-    }
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: false // Close upon selecting a date,
+    });
+
+    writeList();
+    doneButtons();
+
 })
 
 
@@ -69,11 +64,51 @@ function checkLate(date) {
     return false;
 }
 
-$('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year,
-    today: 'Today',
-    clear: 'Clear',
-    close: 'Ok',
-    closeOnSelect: false // Close upon selecting a date,
-  });
+function writeList(){
+    let finished = [];
+    for (var i = 0; i < tasks.length; i++) {
+        let newElem = $(`<li class="collection-item">
+        <div class="row nonono">
+            <div class="col s4 myleft nonono">
+                 ${tasks[i].task_name} 
+            </div>
+            <div class="col s4 mycenter nonono">
+                ${tasks[i].task_due}
+            </div>
+            <div class="col s4 myright nonono">
+              <a class="waves-effect waves-light btn btn-done"><i class="material-icons left">delete</i>Done</a>
+             </div>
+        </div>
+
+        </li>`);
+
+        if (checkLate(tasks[i].task_due)) {
+            newElem.addClass("late");
+        }
+        if (tasks[i].task_is_done) {
+            newElem.addClass("done");
+            newElem.removeClass("late")
+            finished.push(newElem);
+        } else {
+            $("#todo-list").append(newElem);
+        }
+    }
+    finished.forEach(function(elm){
+        $("#todo-list").append(elm);
+    })
+
+
+}
+
+function doneButtons(){
+    $(".btn-done").click(function(){
+        $(this).html("<i class='material-icons left'>delete_forever</i> Remove")
+        let thisElm = $(this).parent().parent().parent()
+        $(this).parent().parent().parent().remove();
+        thisElm.addClass("done");
+        $("#todo-list").append(thisElm);
+        $(".done .btn").click(function(){
+            $(this).parent().parent().parent().remove();
+        })
+    }) 
+}
