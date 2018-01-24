@@ -1,34 +1,35 @@
-let tasks = [
-    {
-        task_name: 'Clean Dishes',
-        task_is_done: false,
-        task_due: '2018-12-03',
-    },
-    {
-        task_name: 'Buy a cat!',
-        task_is_done: false,
-        task_due: '2018-06-03',
-    },
-    {
-        task_name: 'Propose to Katy Perry',
-        task_is_done: true,
-        task_due: '2018-05-05',
-    },
-    {
-        task_name: 'Start eating two apples a day.',
-        task_is_done: false,
-        task_due: '2018-11-20',
-    },
-    {
-        task_name: 'Clean kitty litter.',
-        task_is_done: false,
-        task_due: '2016-05-13',
-    },
-];
+// let tasks = [
+//     {
+//         task_name: 'Clean Dishes',
+//         task_is_done: false,
+//         task_due: '2018-12-03',
+//     },
+//     {
+//         task_name: 'Buy a cat!',
+//         task_is_done: false,
+//         task_due: '2018-06-03',
+//     },
+//     {
+//         task_name: 'Propose to Katy Perry',
+//         task_is_done: true,
+//         task_due: '2018-05-05',
+//     },
+//     {
+//         task_name: 'Start eating two apples a day.',
+//         task_is_done: false,
+//         task_due: '2018-11-20',
+//     },
+//     {
+//         task_name: 'Clean kitty litter.',
+//         task_is_done: false,
+//         task_due: '2016-05-13',
+//     },
+// ];
+
 
 
 $(function () {
-
+    let tasks = getLocalStorage();
     $('.input').keypress(function (e) {
         if (e.which == 13) {
             $('form#login').submit();
@@ -47,7 +48,7 @@ $(function () {
     writeList();
     doneButtons();
 
-})
+
 
 
 function checkLate(date) {
@@ -100,6 +101,17 @@ function writeList(){
 
 }
 
+function setLocalStorage(state){
+    localStorage.setItem("state", JSON.stringify(state))
+}
+
+function getLocalStorage(){
+    if(localStorage.getItem("state") === null){
+        return []
+    }
+    return JSON.parse(localStorage.getItem("state"))
+}
+
 function doneButtons(){
     $(".btn-done").click(function(){
         $(this).html("<i class='material-icons left'>delete_forever</i> Remove")
@@ -112,3 +124,31 @@ function doneButtons(){
         })
     }) 
 }
+
+$(".adder").click(function(event) {
+        let name = $("#todoname").val();
+        let date = $("#tododate").val();
+        $("form")[0].reset();
+        $("#todo-list").prepend(`<li class="collection-item">
+        <div class="row nonono">
+            <div class="col s4 myleft nonono">
+                 ${name} 
+            </div>
+            <div class="col s4 mycenter nonono">
+                ${date}
+            </div>
+            <div class="col s4 myright nonono">
+              <a class="waves-effect waves-light btn btn-done"><i class="material-icons left">delete</i>Done</a>
+             </div>
+        </div>
+        </li>`);
+        tasks.push({
+            task_name: name,
+            task_is_done: false,
+            task_due: date,
+        })
+        doneButtons();
+        setLocalStorage(tasks);
+});
+
+})

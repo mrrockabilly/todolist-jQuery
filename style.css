@@ -28,6 +28,18 @@
     line-height: 24px;
     padding: 0 0.5rem;
 }
+
+.collection .collection-item {
+    -webkit-transition: background 0.5s linear;
+    -moz-transition: background 0.5s linear;
+    -ms-transition: background 0.5s linear;
+    -o-transition: background 0.5s linear;
+    transition: background 0.5s linear;
+}
 .collection .collection-item:hover {
     background-color: lightgray;
+}
+
+form .btn{
+   margin-top: 1.6rem; 
 }
