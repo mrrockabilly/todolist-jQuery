@@ -30,6 +30,7 @@
 
 $(function () {
     let tasks = getLocalStorage();
+
     $('.input').keypress(function (e) {
         if (e.which == 13) {
             $('form#login').submit();
@@ -115,7 +116,16 @@ function getLocalStorage(){
 function doneButtons(){
     $(".btn-done").click(function(){
         $(this).html("<i class='material-icons left'>delete_forever</i> Remove")
-        let thisElm = $(this).parent().parent().parent()
+        let thisElm = $(this).parent().parent().parent();
+        let itemToRemove = thisElm.text().trim().split(" ")[0];
+        let itemsLoc = tasks.findIndex(function(item){
+            if(item.task_name === itemToRemove){
+                return true
+            }
+            return false
+        })
+        tasks[itemsLoc].task_is_done = true;
+        setLocalStorage(tasks);
         $(this).parent().parent().parent().remove();
         thisElm.addClass("done");
         $("#todo-list").append(thisElm);
