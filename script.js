@@ -102,11 +102,14 @@ $(function () {
 
     function doneButtons() {
         $(".btn-done").click(function () {
-            $(this).html("<i class='material-icons left'>delete_forever</i> Remove")
+            $(this).html("<i class='material-icons'>delete_forever</i> Remove")
             let thisElm = $(this).parent().parent().parent();
-            let itemToRemove = thisElm.text().trim().split(" ")[0];
+            let leftText = $( ".myleft" );
+            let text = thisElm.find(leftText)[0].innerText
+            console.log(text)
+            // let itemToRemove = thisElm.text().trim().split(" ")[0];
             let itemsLoc = tasks.findIndex(function (item) {
-                if (item.task_name === itemToRemove) {
+                if (item.task_name === text) {
                     return true
                 }
                 return false
@@ -116,18 +119,30 @@ $(function () {
             $(this).parent().parent().parent().remove();
             thisElm.addClass("done");
             $("#todo-list").append(thisElm);
-            $(".done .btn").click(function () {
+            $(".done .btn").click(function () { 
+                let thisElm = $(this).parent().parent().parent();
+                let leftText = $( ".myleft" );
+                let text = thisElm.find(leftText)[0].innerText
+                let itemsLoc = tasks.findIndex(function (item) {
+                    if (item.task_name === text) {
+                        return true
+                    }
+                    return false
+                })
+                tasks.splice(itemsLoc, 1);
+                setLocalStorage(tasks);
                 $(this).parent().parent().parent().remove();
             })
         })
     }
+
 
     function addNewItem() {
         $(".adder").click(function (event) {
             let name = $("#todoname").val();
             let date = $("#tododate").val();
             $("form")[0].reset();
-            $("#todo-list").prepend(`<li class="collection-item">
+            let newElm = $(`<li class="collection-item">
                                         <div class="row nonono">
                                             <div class="col s4 myleft nonono">
                                                 ${name} 
@@ -140,6 +155,10 @@ $(function () {
                                             </div>
                                         </div>
                                     </li>`);
+            if (checkLate(date)) {
+                newElm.addClass("late");
+            }
+            $("#todo-list").append(newElm)
             tasks.push({
                 task_name: name,
                 task_is_done: false,
